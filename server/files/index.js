@@ -1,3 +1,4 @@
+//index.js
 import { ButtonBuilder, ElementBuilder, MovieBuilder } from "./builders.js";
 
 // Externalized message strings
@@ -13,6 +14,7 @@ const messages = {
 };
 
 let currentSession = null;
+let currentGenre = null;
 
 function updateGenres() {
   const header = document.querySelector('nav>h2');
@@ -58,40 +60,49 @@ function removeMovies() {
   }
 }
 
+let loadMoviesController = null;
+
 function loadMovies(genre) {
+  currentGenre = genre ?? null;
+
+  if (loadMoviesController) {
+    loadMoviesController.abort();
+  }
+  loadMoviesController = new AbortController();
+
   const url = new URL("/movies", location.href);
   if (genre) {
     url.searchParams.set("genre", genre);
   }
 
-  fetch(url)
+  fetch(url, { signal: loadMoviesController.signal })
     .then(response => {
-      removeMovies();
-      const mainElement = document.querySelector("main");
-
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return response.json();
     })
     .then(movies => {
+      removeMovies();
       const mainElement = document.querySelector("main");
       movies.forEach(movie => new MovieBuilder(movie, deleteMovie, Boolean(currentSession)).appendTo(mainElement));
     })
     .catch(error => {
+      if (error.name === 'AbortError') return;
       console.error('Failed to load movies:', error);
-      const mainElement = document.querySelector("main");
-      mainElement.append(`${messages.dataLoadError} ${error.message}`);
+
     });
-}
+  }
 
 function addMovie(imdbID) {
   fetch(`/movies/${imdbID}`, { method: 'PUT' })
     .then(response => {
       if (response.status === 201) {
-        // Task 2.2: Make sure to remove the added movie from the search results to avoid
-        // giving the user the option to add it again.
-    
-        loadMovies();
+        // Remove the added movie's row from the search results
+        const resultsDiv = document.getElementById("searchResults");
+        const row = resultsDiv.querySelector(`[data-imdbid="${imdbID}"]`);
+        if (row) row.remove();
+
         updateGenres();
+        loadMovies(currentGenre);
       } else if (response.status === 200) {
         alert(messages.movieAlreadyInCollection);
       } else {
@@ -113,6 +124,7 @@ function deleteMovie(imdbID) {
           article.remove();
         }
         updateGenres();
+        loadMovies(currentGenre);
       } else {
         throw new Error(`HTTP ${response.status}`);
       }
@@ -133,10 +145,22 @@ function searchMovies(query) {
       const resultsDiv = document.getElementById("searchResults");
       resultsDiv.innerHTML = '';
 
-      // Task 2.2: Render the results returned from the server. Make sure to
-      // include an "Add" button for each result that calls `addMovie(imdbID)` when clicked.
-      // There is a second part to this task, in `addMovie`
+      if (results.length === 0) {
+        new ElementBuilder("p").text(messages.noResultsFound).appendTo(resultsDiv);
+        return;
+      }
 
+      for (const movie of results) {
+        const label = movie.Year ? `${movie.Title} (${movie.Year})` : movie.Title;
+        const addBtn = new ButtonBuilder("Add").onclick(() => addMovie(movie.imdbID));
+
+        // Temporary container lets us grab the DOM node to set data-imdbid
+        const temp = document.createElement("div");
+        new ElementBuilder("p").text(label).append(addBtn).appendTo(temp);
+        const row = temp.firstChild;
+        row.dataset.imdbid = movie.imdbID;
+        resultsDiv.appendChild(row);
+      }
     })
     .catch(error => {
       console.error('Search failed:', error);
@@ -149,12 +173,14 @@ window.onload = function () {
   // Check session
   fetch("/session")
     .then(response => {
+      if (response.status === 401) return null;
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return response.json();
     })
     .then(data => {
       currentSession = data || null;
       updateUI();
+      if (currentSession) loadMovies();
     })
     .catch(error => {
       console.error('Failed to load session:', error);
@@ -162,13 +188,14 @@ window.onload = function () {
       updateUI();
     });
 
-    function renderUserGreeting() {
+  // Task 1.2: Render a user greeting to `#userGreeting`
+  // using `firstName`, `lastName`, and the server-provided login timestamp.
+  function renderUserGreeting() {
     const greetingElement = document.getElementById('userGreeting');
     if (currentSession) {
-      const { firstName, lastName, loginTime
-        
-       } = currentSession;
+      const { firstName, lastName, loginTime } = currentSession;
 
+      // Format the ISO timestamp into German locale date and time
       const date = new Date(loginTime);
       const datePart = date.toLocaleDateString('de-AT', {
         day: 'numeric',
@@ -221,37 +248,40 @@ window.onload = function () {
     }
   }
 
-  // Login dialog
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const username = formData.get('username');
-      const password = formData.get('password');
+  // Task 1.1: Login submit — POST /login with username + password,
+  // handle errors, save response into currentSession, update UI.
+  document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const username = formData.get('username');
+    const password = formData.get('password');
 
-      fetch('/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+    fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    })
+      .then(response => {
+        if (!response.ok) {
+          // Show the error inside the dialog so the user stays in context
+          const errorEl = document.getElementById('loginError');
+          errorEl.textContent = messages.loginFailed;
+          errorEl.style.display = 'block';
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
       })
-        .then(response => {
-          if (!response.ok) {
-            const errorEl = document.getElementById('loginError');
-            errorEl.textContent = messages.loginFailed;
-            errorEl.style.display = 'block';
-            throw new Error(`HTTP ${response.status}`);
-          }
-          return response.json();
-        })
-        .then(session => {
-          currentSession = session;
-          document.getElementById('loginDialog').close();
-          updateUI();
-          loadMovies();
-        })
-        .catch(error => {
-          console.error('Login error:', error);
-        });
-    });
+      .then(session => {
+        currentSession = session;
+        document.getElementById('loginDialog').close();
+        updateUI();
+        loadMovies();
+      })
+      .catch(error => {
+        // Non-auth errors (network etc.) are logged; auth errors shown in UI above
+        console.error('Login error:', error);
+      });
+  });
 
   document.getElementById('cancelLogin').addEventListener('click', () => {
     document.getElementById('loginDialog').close();
@@ -275,4 +305,3 @@ window.onload = function () {
     document.getElementById('searchDialog').close();
   });
 };
-

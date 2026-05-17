@@ -94,9 +94,61 @@ app.put("/movies/:imdbID", requireLogin, function (req, res) {
   const exists = movieModel.getUserMovie(username, imdbID) !== undefined;
 
   if (!exists) {
-    // Task 2.3: Fetch the movie data from OmdbAPI, follow the pattern used further down 
-    // in the GET /search endpoint. Implement conversion of the OmdbAPI response to the 
-    // movie format used in the frontend. Make sure to handle errors and timeouts properly.
+    const url = `http://www.omdbapi.com/?i=${encodeURIComponent(imdbID)}&apikey=${config.omdbApiKey}`;
+
+const controller = new AbortController();
+const timeoutId = setTimeout(() => controller.abort(), config.omdbTimeoutMs);
+
+fetch(url, { signal: controller.signal })
+  .then(apiRes => {
+    clearTimeout(timeoutId);
+    if (!apiRes.ok) return res.sendStatus(apiRes.status);
+
+    return apiRes.text().then(data => {
+      let omdb;
+      try {
+        omdb = JSON.parse(data);
+      } catch (parseError) {
+        console.error('Failed to parse OMDb response:', parseError);
+        return res.sendStatus(500);
+      }
+
+      if (omdb.Response !== 'True') return res.sendStatus(404);
+
+      const movie = {
+  Title:    omdb.Title,
+  imdbID:   omdb.imdbID,
+  Year:     isNaN(omdb.Year) ? null : parseInt(omdb.Year),
+  Rated:    omdb.Rated || null,
+  Released: omdb.Released || null,
+  Runtime:  isNaN(parseInt(omdb.Runtime)) ? null : parseInt(omdb.Runtime),
+  Genres:   omdb.Genre
+    ? omdb.Genre.split(',').map(g => g.trim()).filter(Boolean)
+    : [],
+  Directors: omdb.Director
+    ? omdb.Director.split(',').map(d => d.trim()).filter(Boolean)
+    : [],
+  Writers:  omdb.Writer
+    ? omdb.Writer.split(',').map(w => w.trim()).filter(Boolean)
+    : [],
+  Actors:   omdb.Actors
+    ? omdb.Actors.split(',').map(a => a.trim()).filter(Boolean)
+    : [],
+  Plot:     omdb.Plot || null,
+  Poster:   omdb.Poster || null,
+  Metascore: isNaN(omdb.Metascore) ? null : parseInt(omdb.Metascore),
+  imdbRating: isNaN(omdb.imdbRating) ? null : parseFloat(omdb.imdbRating),
+};
+
+      movieModel.setUserMovie(username, imdbID, movie);
+      res.sendStatus(201);
+    });
+  })
+  .catch(err => {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') return res.sendStatus(504);
+    res.sendStatus(500);
+  });
   } else {
     movieModel.setUserMovie(username, imdbID, req.body);
     res.sendStatus(200);

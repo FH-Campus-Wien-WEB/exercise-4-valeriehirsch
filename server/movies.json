@@ -25,147 +25,127 @@
       "Metascore": 62,
       "imdbRating": 7.6
     },
-    "tt0167260": {
-      "imdbID": "tt0167260",
-      "Title": "The Lord of the Rings: The Return of the King",
-      "Released": "2003-12-16",
-      "Runtime": 201,
+    "tt0795421": {
+      "Title": "Mamma Mia!",
+      "imdbID": "tt0795421",
+      "Year": 2008,
+      "Rated": "PG-13",
+      "Released": "18 Jul 2008",
+      "Runtime": 108,
       "Genres": [
-        "Adventure",
-        "Drama",
-        "Fantasy"
-      ],
-      "Directors": [
-        "Peter Jackson"
-      ],
-      "Writers": [
-        "J.R.R. Tolkien",
-        "Fran Walsh",
-        "Philippa Boyens"
-      ],
-      "Actors": [
-        "Elijah Wood",
-        "Viggo Mortensen",
-        "Ian McKellen"
-      ],
-      "Plot": "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BMTZkMjBjNWMtZGI5OC00MGU0LTk4ZTItODg2NWM3NTVmNWQ4XkEyXkFqcGc@._V1_SX300.jpg",
-      "Metascore": 94,
-      "imdbRating": 9
-    },
-    "tt0057261": {
-      "imdbID": "tt0057261",
-      "Title": "Lord of the Flies",
-      "Released": "1963-08-12",
-      "Runtime": 92,
-      "Genres": [
-        "Adventure",
-        "Drama",
-        "Thriller"
-      ],
-      "Directors": [
-        "Peter Brook"
-      ],
-      "Writers": [
-        "William Golding",
-        "Peter Brook"
-      ],
-      "Actors": [
-        "James Aubrey",
-        "Tom Chapin",
-        "Hugh Edwards"
-      ],
-      "Plot": "Schoolboys marooned on a Pacific island create their own savage civilization.",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BY2RiOTM0ZDgtNDRlMi00MDMzLWI1NDYtY2NjZDM4YTkwNWVlXkEyXkFqcGc@._V1_SX300.jpg",
-      "Metascore": 67,
-      "imdbRating": 6.9
-    }
-  },
-  "jane": {
-    "tt1972591": {
-      "imdbID": "tt1972591",
-      "Title": "King Arthur: Legend of the Sword",
-      "Released": "2017-05-11",
-      "Runtime": 126,
-      "Genres": [
-        "Action",
-        "Adventure",
-        "Drama"
-      ],
-      "Directors": [
-        "Guy Ritchie"
-      ],
-      "Writers": [
-        "Joby Harold",
-        "Guy Ritchie",
-        "Lionel Wigram"
-      ],
-      "Actors": [
-        "Charlie Hunnam",
-        "Astrid Bergès-Frisbey",
-        "Jude Law"
-      ],
-      "Plot": "Robbed of his birthright, Arthur comes up the hard way in the back alleys of the city. But once he pulls the sword from the stone, he is forced to acknowledge his true legacy - whether he likes it or not.",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BMjM3ODY3Njc5Ml5BMl5BanBnXkFtZTgwMjQ5NjM5MTI@._V1_SX300.jpg",
-      "Metascore": 41,
-      "imdbRating": 6.7
-    },
-    "tt0360717": {
-      "imdbID": "tt0360717",
-      "Title": "King Kong",
-      "Released": "2005-12-13",
-      "Runtime": 187,
-      "Genres": [
-        "Action",
-        "Adventure",
+        "Comedy",
+        "Musical",
         "Romance"
       ],
       "Directors": [
-        "Peter Jackson"
+        "Phyllida Lloyd"
       ],
       "Writers": [
-        "Fran Walsh",
-        "Philippa Boyens",
-        "Peter Jackson"
+        "Catherine Johnson",
+        "Melvin Frank",
+        "Sheldon Keller"
       ],
       "Actors": [
-        "Naomi Watts",
-        "Jack Black",
-        "Adrien Brody"
+        "Meryl Streep",
+        "Pierce Brosnan",
+        "Amanda Seyfried"
       ],
-      "Plot": "A greedy film producer assembles a team of moviemakers and sets out for the infamous Skull Island, where they find more than just cannibalistic natives.",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BMWY0NWE0ZjUtNjRlOS00ZDViLTgxNTQtMGMwN2FhNDY1YTg2XkEyXkFqcGc@._V1_SX300.jpg",
-      "Metascore": 81,
-      "imdbRating": 7.2
+      "Plot": "Independent hotelier Donna is preparing for her daughter's wedding with the help of two old friends. Meanwhile, spirited bride-to-be Sophie invites three men from her mother's past in order to discern which is her biological father.",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BMTA2MDU0MjM0MzReQTJeQWpwZ15BbWU3MDYwNzgwNzE@._V1_SX300.jpg",
+      "Metascore": 51,
+      "imdbRating": 6.5
     },
-    "tt0110357": {
-      "imdbID": "tt0110357",
-      "Title": "The Lion King",
-      "Released": "1994-06-23",
-      "Runtime": 88,
+    "tt6718170": {
+      "Title": "The Super Mario Bros. Movie",
+      "imdbID": "tt6718170",
+      "Year": 2023,
+      "Rated": "PG",
+      "Released": "05 Apr 2023",
+      "Runtime": 92,
       "Genres": [
         "Animation",
         "Adventure",
+        "Comedy"
+      ],
+      "Directors": [
+        "Aaron Horvath",
+        "Michael Jelenic",
+        "Pierre Leduc"
+      ],
+      "Writers": [
+        "Matthew Fogel"
+      ],
+      "Actors": [
+        "Chris Pratt",
+        "Anya Taylor-Joy",
+        "Charlie Day"
+      ],
+      "Plot": "Brooklyn plumbers Mario and Luigi are warped to the magical Mushroom Kingdom, and Mario must team up with Princess Peach, Toad, and Donkey Kong to save Luigi from the evil Bowser.",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BOGZlN2EzOTYtMzUzOS00NTM3LTg0MTQtZDVjZGM4YmJlNWNhXkEyXkFqcGc@._V1_QL75_UY562_CR0,0,380,562_.jpg",
+      "Metascore": 46,
+      "imdbRating": 7
+    },
+    "tt3387542": {
+      "Title": "The Forest",
+      "imdbID": "tt3387542",
+      "Year": 2016,
+      "Rated": "PG-13",
+      "Released": "08 Jan 2016",
+      "Runtime": 93,
+      "Genres": [
+        "Horror",
+        "Mystery",
+        "Thriller"
+      ],
+      "Directors": [
+        "Jason Zada"
+      ],
+      "Writers": [
+        "Ben Ketai",
+        "Sarah Cornwell",
+        "Nick Antosca"
+      ],
+      "Actors": [
+        "Natalie Dormer",
+        "Eoin Macken",
+        "Stephanie Vogt"
+      ],
+      "Plot": "A young woman's desperate search for her twin sister brings her to a ghost-filled stretch of wilderness known as the 'Suicide Forest.'",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BMjAwMzQzNTc5OV5BMl5BanBnXkFtZTgwNDgyMTU2NzE@._V1_SX300.jpg",
+      "Metascore": 34,
+      "imdbRating": 4.8
+    }
+  },
+  "jane": {
+    "tt1877830": {
+      "Title": "The Batman",
+      "imdbID": "tt1877830",
+      "Year": 2022,
+      "Rated": "PG-13",
+      "Released": "04 Mar 2022",
+      "Runtime": 176,
+      "Genres": [
+        "Action",
+        "Crime",
         "Drama"
       ],
       "Directors": [
-        "Roger Allers",
-        "Rob Minkoff"
+        "Matt Reeves"
       ],
       "Writers": [
-        "Irene Mecchi",
-        "Jonathan Roberts",
-        "Linda Woolverton"
+        "Matt Reeves",
+        "Peter Craig",
+        "Bob Kane"
       ],
       "Actors": [
-        "Matthew Broderick",
-        "Jeremy Irons",
-        "James Earl Jones"
+        "Robert Pattinson",
+        "Zoë Kravitz",
+        "Jeffrey Wright"
       ],
-      "Plot": "Lion prince Simba and his father are targeted by his bitter uncle, who wants to ascend the throne himself.",
-      "Poster": "https://m.media-amazon.com/images/M/MV5BZGRiZDZhZjItM2M3ZC00Y2IyLTk3Y2MtMWY5YjliNDFkZTJlXkEyXkFqcGc@._V1_SX300.jpg",
-      "Metascore": 88,
-      "imdbRating": 8.5
+      "Plot": "When a sadistic serial killer begins murdering key political figures in Gotham, the Batman is forced to investigate the city's hidden corruption and question his family's involvement.",
+      "Poster": "https://m.media-amazon.com/images/M/MV5BMmU5NGJlMzAtMGNmOC00YjJjLTgyMzUtNjAyYmE4Njg5YWMyXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+      "Metascore": 72,
+      "imdbRating": 7.8
     }
   }
 }
