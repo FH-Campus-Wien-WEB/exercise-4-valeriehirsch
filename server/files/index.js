@@ -162,12 +162,26 @@ window.onload = function () {
       updateUI();
     });
 
-  function renderUserGreeting() {
+    function renderUserGreeting() {
     const greetingElement = document.getElementById('userGreeting');
     if (currentSession) {
-      // Task 1.2: Render a user greeting to `#userGreeting` 
-      // using `firstName`, `lastName`, and the server-provided
-      // login timestamp.
+      const { firstName, lastName, loginTime
+        
+       } = currentSession;
+
+      const date = new Date(loginTime);
+      const datePart = date.toLocaleDateString('de-AT', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+      const timePart = date.toLocaleTimeString('de-AT', {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      greetingElement.textContent =
+        `Hi ${firstName} ${lastName}, du hast dich am ${datePart} um ${timePart} angemeldet.`;
     } else {
       greetingElement.textContent = messages.loggedOutGreeting;
     }
@@ -208,15 +222,36 @@ window.onload = function () {
   }
 
   // Login dialog
-  document.getElementById('loginForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const username = formData.get('username');
+      const password = formData.get('password');
 
-    // Task 1.1: Implement the login submit flow to call `POST /login` 
-    // with username and password, handle errors, save the response 
-    // into `currentSession`, then call `updateUI()` and `loadMovies()`.
-
-  });
+      fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      })
+        .then(response => {
+          if (!response.ok) {
+            const errorEl = document.getElementById('loginError');
+            errorEl.textContent = messages.loginFailed;
+            errorEl.style.display = 'block';
+            throw new Error(`HTTP ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(session => {
+          currentSession = session;
+          document.getElementById('loginDialog').close();
+          updateUI();
+          loadMovies();
+        })
+        .catch(error => {
+          console.error('Login error:', error);
+        });
+    });
 
   document.getElementById('cancelLogin').addEventListener('click', () => {
     document.getElementById('loginDialog').close();
